@@ -7,6 +7,13 @@ Upstream deliberately does not ship a Containerfile (container/NAS deployment is
 out of scope for an interactive terminal app), so this repo provides one plus a
 small launcher.
 
+## Why this exists
+
+Container support was proposed upstream and **declined as out of scope** — see
+[PR #115](https://github.com/baairon/torlink/pull/115) and the maintainer's
+reasoning in [issue #11](https://github.com/baairon/torlink/issues/11). This repo
+keeps that capability outside the upstream project, for anyone who wants it.
+
 ## Usage
 
 ```sh
