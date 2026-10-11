@@ -8,6 +8,7 @@ readonly REPO_DIR
 
 readonly IMAGE="${TORLINK_IMAGE:-localhost/torlink:latest}"
 readonly REF="${TORLINK_REF:-main}"
+readonly NETWORK="${TORLINK_NETWORK:-host}"
 readonly STATE_DIR="${TORLINK_STATE_DIR:-${HOME}/.local/share/torlink-container}"
 readonly DOWNLOAD_DIR="${TORLINK_DOWNLOAD_DIR:-${HOME}/Downloads/torlink}"
 
@@ -34,10 +35,17 @@ if [[ -t 0 && -t 1 ]]; then
   tty=(-it)
 fi
 
+# Network mode (host by default so torrent peers can reach us).
+net=()
+if [[ -n "${NETWORK}" ]]; then
+  net=(--network "${NETWORK}")
+fi
+
 exec podman run --rm --replace \
   --name torlink \
   --init \
   --userns=keep-id \
+  ${net[@]+"${net[@]}"} \
   ${tty[@]+"${tty[@]}"} \
   -v "${STATE_DIR}:/state:Z" \
   -v "${DOWNLOAD_DIR}:/home/node/Downloads/torlink:Z" \
