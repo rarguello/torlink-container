@@ -3,7 +3,7 @@
 set -Eeuo pipefail
 
 # Directory of this script (the torlink-container repo).
-REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 readonly REPO_DIR
 
 readonly IMAGE="${TORLINK_IMAGE:-localhost/torlink:latest}"
