@@ -23,7 +23,7 @@ if [[ "${TORLINK_REBUILD:-0}" == 1 ]] || ! podman image exists "${IMAGE}"; then
   echo "Building ${IMAGE} (ref: ${REF})..."
   podman build --pull=always \
     --build-arg "TORLINK_REF=${REF}" \
-    -f "${REPO_DIR}/Dockerfile" \
+    -f "${REPO_DIR}/Containerfile" \
     -t "${IMAGE}" \
     "${REPO_DIR}"
 fi
