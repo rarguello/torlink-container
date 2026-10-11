@@ -44,7 +44,7 @@ ln -s "$PWD/torlink" ~/.local/bin/torlink
 | `TORLINK_IMAGE` | `localhost/torlink:latest` | image tag to build/run |
 | `TORLINK_REF` | `main` | upstream branch or tag to build |
 | `TORLINK_REBUILD` | `0` | set to `1` to force a rebuild |
-| `TORLINK_NETWORK` | `host` | podman network mode. `host` lets torrent peers reach you; set to empty (or `bridge`) for network isolation |
+| `TORLINK_NETWORK` | *unset* (podman default, bridge) | network mode. Leave unset for isolation; set to `host` for torrent peer connectivity / seeding |
 | `TORLINK_STATE_DIR` | `~/.local/share/torlink-container` | host dir mounted at `/state` |
 | `TORLINK_DOWNLOAD_DIR` | `~/Downloads/torlink` | host dir mounted at the container downloads path |
 

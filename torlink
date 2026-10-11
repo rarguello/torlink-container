@@ -8,7 +8,7 @@ readonly REPO_DIR
 
 readonly IMAGE="${TORLINK_IMAGE:-localhost/torlink:latest}"
 readonly REF="${TORLINK_REF:-main}"
-readonly NETWORK="${TORLINK_NETWORK:-host}"
+readonly NETWORK="${TORLINK_NETWORK:-}"
 readonly STATE_DIR="${TORLINK_STATE_DIR:-${HOME}/.local/share/torlink-container}"
 readonly DOWNLOAD_DIR="${TORLINK_DOWNLOAD_DIR:-${HOME}/Downloads/torlink}"
 
