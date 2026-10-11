@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+# Directory of this script (the torlink-container repo).
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly REPO_DIR
+
+readonly IMAGE="${TORLINK_IMAGE:-localhost/torlink:latest}"
+readonly REF="${TORLINK_REF:-main}"
+readonly STATE_DIR="${HOME}/.local/share/torlink-container"
+readonly DOWNLOAD_DIR="${HOME}/Downloads/torlink"
+
+command -v podman >/dev/null 2>&1 || {
+  echo "Error: Podman is not installed or not in PATH." >&2
+  exit 1
+}
+
+mkdir -p "${STATE_DIR}" "${DOWNLOAD_DIR}"
+
+# Build if the image is missing, or if a rebuild is requested.
+if [[ "${TORLINK_REBUILD:-0}" == 1 ]] || ! podman image exists "${IMAGE}"; then
+  echo "Building ${IMAGE} (ref: ${REF})..."
+  podman build --pull=always \
+    --build-arg "TORLINK_REF=${REF}" \
+    -f "${REPO_DIR}/Dockerfile" \
+    -t "${IMAGE}" \
+    "${REPO_DIR}"
+fi
+
+# -it only when there is a terminal (allows pipes and headless modes).
+tty=()
+if [[ -t 0 && -t 1 ]]; then
+  tty=(-it)
+fi
+
+exec podman run --rm --replace \
+  --name torlink \
+  --init \
+  --userns=keep-id \
+  ${tty[@]+"${tty[@]}"} \
+  -v "${STATE_DIR}:/state:Z" \
+  -v "${DOWNLOAD_DIR}:/home/node/Downloads/torlink:Z" \
+  "${IMAGE}" "$@"
