@@ -8,8 +8,8 @@ readonly REPO_DIR
 
 readonly IMAGE="${TORLINK_IMAGE:-localhost/torlink:latest}"
 readonly REF="${TORLINK_REF:-main}"
-readonly STATE_DIR="${HOME}/.local/share/torlink-container"
-readonly DOWNLOAD_DIR="${HOME}/Downloads/torlink"
+readonly STATE_DIR="${TORLINK_STATE_DIR:-${HOME}/.local/share/torlink-container}"
+readonly DOWNLOAD_DIR="${TORLINK_DOWNLOAD_DIR:-${HOME}/Downloads/torlink}"
 
 command -v podman >/dev/null 2>&1 || {
   echo "Error: Podman is not installed or not in PATH." >&2
